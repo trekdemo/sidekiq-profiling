@@ -16,6 +16,8 @@ Gem::Specification.new do |gem|
   gem.version       = Sidekiq::Profiling::VERSION
 
   gem.add_dependency "sidekiq", ">= 2.9.0"
+  gem.add_dependency "chartkick", '>= 1.1.1'
+  gem.add_dependency "sinatra-assetpack", '>= 0.2.5'
 
   gem.add_development_dependency "rake"
   gem.add_development_dependency "rack-test"
