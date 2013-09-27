@@ -6,10 +6,14 @@ module Sidekiq
         app.get '/profiling' do
           view_path = File.join(File.expand_path('..', __FILE__), 'views')
 
-          @count = (params[:count] || 25).to_i
+          @count = (params[:count] || 500).to_i
           (@current_page, @total_size, @messages) = page("allocation_profiling", params[:page], @count)
           @messages = @messages.map { |msg| Sidekiq.load_json(msg) }
-          @types = @messages.first.keys
+          @types = if @messages.first
+                     @messages.first.keys.reject {|t| %w(timestamp worker).include?(t) }
+                   else
+                     []
+                   end
 
           render(:erb, File.read(File.join(view_path, "profiling.erb")))
         end
